@@ -1,24 +1,24 @@
-export const handleSubmitCheck = (values, setError) => {
-  let error = {};
-  console.log(values);
-  const { cpassword, email, password, username } = values;
+// export const handleSubmitCheck = (values, setError) => {
+//   let error = {};
+//   console.log(values);
+//   const { cpassword, email, password, username } = values;
 
-  if (!username) {
-    error.username = "*username should not be empty ";
-  }
-  if (!email) {
-    error.email = "*email should not be empty";
-  }
+//   if (!username) {
+//     error.username = "*username should not be empty ";
+//   }
+//   if (!email) {
+//     error.email = "*email should not be empty";
+//   }
 
-  if (!password) {
-    error.password = "*password should not be empty";
-  }
+//   if (!password) {
+//     error.password = "*password should not be empty";
+//   }
 
-  if (!cpassword) {
-    error.cpassword = "*confirm password should not be empty";
-  }
-  return setError(error);
-};
+//   if (!cpassword) {
+//     error.cpassword = "*confirm password should not be empty";
+//   }
+//   return setError(error);
+// };
 
 export const userNameValidation = (value) => {
   return value.length <= 3;
@@ -33,8 +33,6 @@ export const isPasswordValidation = (value) => {
 }
 
 export const checkConfirmation=(password ,cpassword)=>{
-    if(password !==cpassword){
-       return true
-    }
+    return password === cpassword
 
 }

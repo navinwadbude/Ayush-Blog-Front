@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  handleSubmitCheck,
+ 
   userNameValidation,
   isEmailValidation,
   isPasswordValidation,
-  confirmPassword,
-  checkConfirmation
+  checkConfirmation,
 } from "../utils/utils";
 const Signup = () => {
   const [name, setName] = useState({
@@ -41,8 +40,6 @@ const Signup = () => {
     cpassword: "",
   });
 
-  console.log(error, "?????????");
-
   const handlChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -54,7 +51,17 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    checkConfirmation(password,cpassword)
+    const res = checkConfirmation(password.value, cpassword.value);
+    console.log(res, "res");
+    res
+      ? setPassword({
+          value: "",
+          errorEmsgs: " ",
+        })
+      : setCpassword({
+          value: "",
+          errorEm: "password not matches",
+        });
   };
 
   const handleName = (event) => {
@@ -74,23 +81,20 @@ const Signup = () => {
   const handlePassword = (event) => {
     setPassword({
       value: event.target.value,
-      errorEmsgs: isPasswordValidation(event.target.value,)
-        ? "password must greter than 6"
+      errorEmsgs: isPasswordValidation(event.target.value)
+        ? "length is less than 6"
         : "",
-    }); 
+    });
   };
 
   const handleCpassword = (event) => {
     setCpassword({
       value: event.target.value,
       errorEm: isPasswordValidation(event.target.value)
-        ? "not match"
+        ? "length is less than 6"
         : "",
-    }); 
+    });
   };
-
-
- 
 
   return (
     <div>
