@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -27,42 +27,7 @@ const Signup = () => {
     errorEm: "",
   });
 
-  const [username, setUserName] = useState({
-    username: "",
-    email: "",
-    password: "",
-    cpassword: "",
-  });
-
-  const [error, setError] = useState({
-    username: "",
-    email: "",
-    password: "",
-    cpassword: "",
-  });
-
-
-  // console.log(fetchData,"sfhfhgfhh")
-
-  const handlChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    setUserName({
-      ...username,
-      [name]: value,
-    });
-  };
-  
-  // const userDetails={ 
-  //   username: name.value,
-  //   email:  email.value,
-  //   password:  password.value,
-  //   cpassword:  cpassword.value,
-
-  // }
-  // console.log(userDetails,"rwtrgvvvvvvvvvvvvr")
-
-  const  handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const res = checkConfirmation(password.value, cpassword.value);
     console.log(res, "res");
@@ -75,17 +40,22 @@ const Signup = () => {
           value: "",
           errorEm: "password not matches",
         });
-        
-        
-        console.log("username++++++",{name,email,password,cpassword});
-        const obj = {name: name.value, email: email.value,password: password.value,cpassword: cpassword.value}
-         axios.post("http://localhost:5000/signup",{...obj})
-        .then(res => {
-          console.log(res,"guighiugig");
-          // console.log(res.data,"vkkkkk");
-        }).catch((error)=>{
-          console.log(error)
-        })
+
+    console.log("username++++++", { name, email, password, cpassword });
+    const obj = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      cpassword: cpassword.value,
+    };
+    axios
+      .post("http://localhost:5000/signup", { ...obj })
+      .then((res) => {
+        console.log(res, "guighiugig");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleName = (event) => {
