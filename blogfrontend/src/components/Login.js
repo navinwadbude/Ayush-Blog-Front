@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
+
 import axios from "axios";
+import jwt from "jwt-decode";
 
 import { isEmailValidation, isPasswordValidation } from "../utils/utils";
 
 const Login = () => {
-  const [Succes, setSucces] = useState("");
+  const [Succes, setSucces] = useState();
   const [email, setEmail] = useState({
     value: "",
     errorEmsg: "",
   });
-
-  const navigate = useNavigate();
 
   const [password, setPassword] = useState({
     value: "",
@@ -36,7 +35,6 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
-    navigate('/home')
     e.preventDefault();
     const obj = {
       email: email.value,
@@ -45,11 +43,17 @@ const Login = () => {
     axios
       .post("http://localhost:5000/login", { ...obj })
       .then((res) => {
+        const token = res.data.token;
+        const user = jwt(token);
+        localStorage.setItem("token", token);
+        console.log(user);
+
         console.log(res.data);
-        setSucces(res.data);
+        setSucces(res.data.message);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data.error, "sdgdgggg");
+        setSucces(error.response.data.error);
       });
   };
   return (

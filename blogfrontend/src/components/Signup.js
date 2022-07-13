@@ -15,7 +15,7 @@ const Signup = () => {
     errorMessage: "",
   });
   const [email, setEmail] = useState({
-    value: "",  
+    value: "",
     errorEmsg: "",
   });
   const [password, setPassword] = useState({
@@ -42,10 +42,12 @@ const Signup = () => {
           errorEm: "password not matches",
         });
 
-    console.log("username++++++", { name: name.value,
+    console.log("username++++++", {
+      name: name.value,
       email: email.value,
       password: password.value,
-      cpassword: cpassword.value, });
+      cpassword: cpassword.value,
+    });
     const obj = {
       name: name.value,
       email: email.value,
@@ -53,15 +55,16 @@ const Signup = () => {
       cpassword: cpassword.value,
     };
 
-    console.log("obj------>",obj)
+    console.log("obj------>", obj);
 
-    axios.post("http://localhost:5000/signup", obj)
+    axios
+      .post("http://localhost:5000/signup", obj)
       .then((res) => {
-        console.log( res,"guighiugig");
+        console.log(res, "guighiugig");
         setSucces(res.data.message);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data.message, "KKKKKKKKK");
       });
   };
 
