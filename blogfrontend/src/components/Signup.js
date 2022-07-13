@@ -9,12 +9,13 @@ import {
   checkConfirmation,
 } from "../utils/utils";
 const Signup = () => {
+  const [Succes, setSucces] = useState(null);
   const [name, setName] = useState({
     value: "",
     errorMessage: "",
   });
   const [email, setEmail] = useState({
-    value: "",
+    value: "",  
     errorEmsg: "",
   });
   const [password, setPassword] = useState({
@@ -41,17 +42,23 @@ const Signup = () => {
           errorEm: "password not matches",
         });
 
-    console.log("username++++++", { name, email, password, cpassword });
+    console.log("username++++++", { name: name.value,
+      email: email.value,
+      password: password.value,
+      cpassword: cpassword.value, });
     const obj = {
       name: name.value,
       email: email.value,
       password: password.value,
       cpassword: cpassword.value,
     };
-    axios
-      .post("http://localhost:5000/signup", { ...obj })
+
+    console.log("obj------>",obj)
+
+    axios.post("http://localhost:5000/signup", obj)
       .then((res) => {
-        console.log(res, "guighiugig");
+        console.log( res,"guighiugig");
+        setSucces(res.data.message);
       })
       .catch((error) => {
         console.log(error);
@@ -94,7 +101,7 @@ const Signup = () => {
     <div>
       <div className="register">
         <h2>Signup page</h2>
-
+        <span style={{ color: "red" }}>{Succes}</span>
         <form className="registerForm" onSubmit={handleSubmit}>
           <label>Username</label>
           <input

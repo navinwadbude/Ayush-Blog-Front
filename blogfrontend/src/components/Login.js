@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 import { isEmailValidation, isPasswordValidation } from "../utils/utils";
 
 const Login = () => {
+  const [Succes, setSucces] = useState("");
   const [email, setEmail] = useState({
     value: "",
     errorEmsg: "",
   });
+
+  const navigate = useNavigate();
 
   const [password, setPassword] = useState({
     value: "",
@@ -31,13 +36,27 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
+    navigate('/home')
     e.preventDefault();
-    console.log("datZ", e.target.name);
+    const obj = {
+      email: email.value,
+      password: password.value,
+    };
+    axios
+      .post("http://localhost:5000/login", { ...obj })
+      .then((res) => {
+        console.log(res.data);
+        setSucces(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div>
       <div className="login">
         <span className="loginTitle">Login page</span>
+        <span style={{ color: "red" }}>{Succes}</span>
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>Email</label>
           <input
