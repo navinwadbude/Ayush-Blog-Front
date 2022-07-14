@@ -1,7 +1,9 @@
 import React from "react";
 import img from "../image/pic.jpg";
 const Home = () => {
+ 
   return (
+    
     <>
       <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">

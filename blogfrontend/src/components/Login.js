@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 
@@ -12,6 +11,8 @@ const Login = () => {
     value: "",
     errorEmsg: "",
   });
+
+  const navigate = useNavigate();
 
   const [password, setPassword] = useState({
     value: "",
@@ -42,19 +43,22 @@ const Login = () => {
     };
     axios
       .post("http://localhost:5000/login", { ...obj })
-      .then((res) => {
+      .then(async (res) => {
         const token = res.data.token;
-        const user = jwt(token);
-        localStorage.setItem("token", token);
-        console.log(user);
-
-        console.log(res.data);
+        const user = await jwt(token);
+        console.log(token, "gfxcgfdghdfjh");
+        console.log(res);
         setSucces(res.data.message);
+
+        localStorage.setItem("accessToken", token);
+        navigate("/home", { replace: true,useData:res.data});
       })
       .catch((error) => {
-        console.log(error.response.data.error, "sdgdgggg");
-        setSucces(error.response.data.error);
+        console.log(error.message, "sdgdgggg");
+        setSucces(error.message);
+        // console.log(error);
       });
+     
   };
   return (
     <div>
