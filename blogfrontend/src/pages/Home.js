@@ -1,18 +1,42 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+
 import img from "../image/pic.jpg";
 const Home = () => {
  
-  return (
+  const data = useLocation();
+  const detail = data.state;
+  const dec = jwt_decode(detail);
+ 
+
+  useEffect(() => {
     
-    <>
+     axios
+    .get("http://localhost:5000/getUserData", {
+      headers: { Authorization: `Bearer ${detail}` },
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, [])
+  
+
+  return (
+  
       <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-              Blog App
-            </a>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">
+              
+            </a>  
             <button
-              class="navbar-toggler"
+              className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navbarNavAltMarkup"
@@ -20,23 +44,23 @@ const Home = () => {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div className="navbar-nav">
+                <a className="nav-link active" aria-current="page" href="#">
                   Home
                 </a>
-                <a class="nav-link" href="#">
-                  Features
+                <a className="nav-link active"  aria-current="page" href="/about">
+                 About
                 </a>
-                <a class="nav-link" href="#">
-                  Pricing
+                <a className="nav-link active" aria-current="page" href="/contact">
+                  Contact
                 </a>
                 <a
-                  class="nav-link disabled"
+                  className="nav-link disabled"
                   href="#"
-                  tabindex="-1"
+                  tabIndex="-1"
                   aria-disabled="true"
                 >
                   Disabled
@@ -49,7 +73,7 @@ const Home = () => {
           <img src={img} alt="" />
         </div>
       </div>
-    </>
+ 
   );
 };
 

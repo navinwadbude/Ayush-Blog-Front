@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import jwt from "jwt-decode";
+
+
 
 import { isEmailValidation, isPasswordValidation } from "../utils/utils";
 
+
 const Login = () => {
   const [Succes, setSucces] = useState();
+  const [tokens, setTokens] = useState(null);
   const [email, setEmail] = useState({
     value: "",
     errorEmsg: "",
   });
 
+ 
   const navigate = useNavigate();
 
   const [password, setPassword] = useState({
@@ -35,33 +39,31 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const obj = {
       email: email.value,
       password: password.value,
     };
-    axios
+    await axios
       .post("http://localhost:5000/login", { ...obj })
-      .then(async (res) => {
+      .then((res) => {
         const token = res.data.token;
-        const user = await jwt(token);
-        console.log(token, "gfxcgfdghdfjh");
-        console.log(res);
+        console.log(res.data)
+        setTokens(token);
         setSucces(res.data.message);
-
         localStorage.setItem("accessToken", token);
-        navigate("/home", { replace: true,useData:res.data});
+        navigate("/home", { replace: true, useData: res.data, state: token });
       })
       .catch((error) => {
         console.log(error.message, "sdgdgggg");
         setSucces(error.message);
-        // console.log(error);
       });
-     
   };
+
   return (
     <div>
+
       <div className="login">
         <span className="loginTitle">Login page</span>
         <span style={{ color: "red" }}>{Succes}</span>
@@ -88,7 +90,7 @@ const Login = () => {
             Login
           </button>
         </form>
-        <Link to={"/"} className="registerLoginButton">
+        <Link to={"/signup"} className="registerLoginButton">
           Signup
         </Link>
       </div>
