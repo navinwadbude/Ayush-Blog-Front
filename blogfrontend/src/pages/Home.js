@@ -3,38 +3,33 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
-
+import { getUserData } from "../URL/utils";
 import img from "../image/pic.jpg";
+
 const Home = () => {
- 
   const data = useLocation();
   const detail = data.state;
-  const dec = jwt_decode(detail);
- 
+  const decode = jwt_decode(detail);
 
   useEffect(() => {
-    
-     axios
-    .get("http://localhost:5000/getUserData", {
-      headers: { Authorization: `Bearer ${detail}` },
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, [])
-  
+    axios
+      .get(getUserData, {
+        headers: { Authorization: `Bearer ${detail}` },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
-  
+    <>
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              
-            </a>  
+            <a className="navbar-brand" href="#"></a>
             <button
               className="navbar-toggler"
               type="button"
@@ -51,10 +46,18 @@ const Home = () => {
                 <a className="nav-link active" aria-current="page" href="#">
                   Home
                 </a>
-                <a className="nav-link active"  aria-current="page" href="/about">
-                 About
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="/about"
+                >
+                  About
                 </a>
-                <a className="nav-link active" aria-current="page" href="/contact">
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="/contact"
+                >
                   Contact
                 </a>
                 <a
@@ -73,7 +76,7 @@ const Home = () => {
           <img src={img} alt="" />
         </div>
       </div>
- 
+    </>
   );
 };
 

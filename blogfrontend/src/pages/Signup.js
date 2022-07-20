@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import { signup } from "../URL/utils";
+
 import {
   userNameValidation,
   isEmailValidation,
@@ -52,13 +54,12 @@ const Signup = () => {
       name: name.value,
       email: email.value,
       password: password.value,
-      cpassword: cpassword.value,
     };
 
     console.log("obj------>", obj);
 
     axios
-      .post("http://localhost:5000/signup", obj)
+      .post(signup, obj)
       .then((res) => {
         console.log(res, "guighiugig");
         setSucces(res.data.message);
@@ -151,7 +152,7 @@ const Signup = () => {
             SIGNUP
           </button>
         </form>
-        <Link to={"/login"} className="registerLoginButton">
+        <Link to={"/"} className="registerLoginButton">
           Login
         </Link>
       </div>

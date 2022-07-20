@@ -2,22 +2,16 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
-
+import { login } from "../URL/utils";
 import { isEmailValidation, isPasswordValidation } from "../utils/utils";
 
-
 const Login = () => {
-  const [Succes, setSucces] = useState();
-  const [tokens, setTokens] = useState(null);
+  const [Success, setSuccess] = useState();
   const [email, setEmail] = useState({
     value: "",
     errorEmsg: "",
   });
-
- 
   const navigate = useNavigate();
-
   const [password, setPassword] = useState({
     value: "",
     errorEmsgs: "",
@@ -46,27 +40,25 @@ const Login = () => {
       password: password.value,
     };
     await axios
-      .post("http://localhost:5000/login", { ...obj })
+      .post(login, { ...obj })
       .then((res) => {
         const token = res.data.token;
-        console.log(res.data)
-        setTokens(token);
-        setSucces(res.data.message);
+        console.log(res.data);
+        setSuccess(res.data.message);
         localStorage.setItem("accessToken", token);
         navigate("/home", { replace: true, useData: res.data, state: token });
       })
       .catch((error) => {
         console.log(error.message, "sdgdgggg");
-        setSucces(error.message);
+        setSuccess(error.message);
       });
   };
 
   return (
     <div>
-
       <div className="login">
         <span className="loginTitle">Login page</span>
-        <span style={{ color: "red" }}>{Succes}</span>
+        <span style={{ color: "red" }}>{Success}</span>
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>Email</label>
           <input
