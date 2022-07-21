@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../URL/utils";
 
 import {
@@ -11,6 +11,8 @@ import {
   checkConfirmation,
 } from "../utils/utils";
 const Signup = () => {
+
+  const dispatch = useDispatch();
   const [Succes, setSucces] = useState(null);
   const [name, setName] = useState({
     value: "",
