@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { signup } from "../URL/utils";
+import { BASE_URL } from "../URL/utils";
 
 import {
   userNameValidation,
@@ -59,7 +59,7 @@ const Signup = () => {
     console.log("obj------>", obj);
 
     axios
-      .post(signup, obj)
+      .post(`${BASE_URL}/signup`, obj)
       .then((res) => {
         console.log(res, "guighiugig");
         setSucces(res.data.message);

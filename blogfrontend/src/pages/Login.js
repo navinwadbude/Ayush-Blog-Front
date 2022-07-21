@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { login } from "../URL/utils";
+import { BASE_URL } from "../URL/utils";
 import { isEmailValidation, isPasswordValidation } from "../utils/utils";
 
 const Login = () => {
@@ -38,9 +38,9 @@ const Login = () => {
     const obj = {
       email: email.value,
       password: password.value,
-    };
+    };  
     await axios
-      .post(login, { ...obj })
+      .post(`${BASE_URL}/login`, { ...obj })
       .then((res) => {
         const token = res.data.token;
         console.log(res.data);

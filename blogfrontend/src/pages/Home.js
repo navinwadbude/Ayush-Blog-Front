@@ -2,18 +2,26 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
-import { getUserData } from "../URL/utils";
+import moment from 'moment'
+import { BASE_URL, } from "../URL/utils";
 import img from "../image/pic.jpg";
 
 const Home = () => {
   const data = useLocation();
   const detail = data.state;
+
   const decode = jwt_decode(detail);
+  console.log("decode",decode);
+
+  console.log('exp', decode.exp);
+  console.log('aaaaaaaaaaaa', moment(decode.exp).format('mm')  );
+
+  const expTime = moment(decode.exp).format('mm');
+
 
   useEffect(() => {
     axios
-      .get(getUserData, {
+      .get(`${BASE_URL}/getUserData`, {
         headers: { Authorization: `Bearer ${detail}` },
       })
       .then((res) => {
@@ -39,12 +47,14 @@ const Home = () => {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
+           
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav">
                 <a className="nav-link active" aria-current="page" href="#">
                   Home
+                  {alert(`this token will expire in ${expTime} minutes`, )}
                 </a>
                 <a
                   className="nav-link active"
