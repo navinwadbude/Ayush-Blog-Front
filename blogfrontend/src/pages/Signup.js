@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { apiAction } from "../redux/action";
+// import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../URL/utils";
 
 import {
@@ -11,8 +13,8 @@ import {
   checkConfirmation,
 } from "../utils/utils";
 const Signup = () => {
-
-  const dispatch = useDispatch();
+   
+  
   const [Succes, setSucces] = useState(null);
   const [name, setName] = useState({
     value: "",
@@ -31,8 +33,20 @@ const Signup = () => {
     value: "",
     errorEm: "",
   });
+  const dispatched = useDispatch();
+  
+
 
   const handleSubmit = async (e) => {
+
+    // dispatch(register(username, email, password))
+    // .then(() => {
+    //   setSuccessful(true);
+    // })
+    // .catch(() => {
+    //   setSuccessful(false);
+    // });
+
     e.preventDefault();
     const res = checkConfirmation(password.value, cpassword.value);
     console.log(res, "res");
@@ -60,16 +74,21 @@ const Signup = () => {
 
     console.log("obj------>", obj);
 
-    axios
-      .post(`${BASE_URL}/signup`, obj)
-      .then((res) => {
-        console.log(res, "guighiugig");
-        setSucces(res.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message, "KKKKKKKKK");
-      });
+    dispatched(apiAction(obj))
+
+    // axios
+    //   .post(`${BASE_URL}/signup`, obj)
+    //   .then((res) => {
+    //     console.log(res, "guighiugig");
+    //     setSucces(res.data.message);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response.data.message, "KKKKKKKKK");
+    //   });
   };
+  const data=useSelector(state=>state.apiReducer)
+  console.log(data)
+
 
   const handleName = (event) => {
     setName({

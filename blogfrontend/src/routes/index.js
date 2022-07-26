@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 
 import React from "react";
 
 const index = () => {
+  const history = useHistory();
   const [username, setName] = useState("");
   const [token, setToken] = useState("");
   const [expire, setExpire] = useState("");
   const [users, setUsers] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     // refreshToken();
@@ -42,7 +42,7 @@ const index = () => {
       });
       if (response.data[0]) {
         setName(response.data[0].name);
-        // setUsers(response.data);
+        setUsers(response.data);
       } else if (response.data.msg) {
         const responses = await axios.get("http://localhost:5000/token", {
           headers: {
@@ -64,9 +64,7 @@ const index = () => {
     }
   };
 
-  return <div>
-  <h1>Welcome Back: {username}</h1>
-  </div>;
+  return <div></div>;
 };
 
 export default index;

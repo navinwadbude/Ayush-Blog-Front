@@ -167,3 +167,15 @@
   width: 100%;
 }
 
+.button{
+ position: relative;
+ left:  60em;
+ border: 0px;
+ top: 7px;
+
+}
+.buttonp{
+  background-color: rgb(65, 148, 225);
+  color: white;
+  border: none;
+}

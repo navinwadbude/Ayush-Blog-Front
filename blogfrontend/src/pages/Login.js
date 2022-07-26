@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { apiLogin } from "../redux/action";
 
 import { BASE_URL } from "../URL/utils";
 import { isEmailValidation, isPasswordValidation } from "../utils/utils";
@@ -23,6 +25,7 @@ const Login = () => {
       errorEmsg: isEmailValidation(event.target.value) ? "invalid email" : "",
     });
   };
+  
 
   const handlePassword = (event) => {
     setPassword({
@@ -32,26 +35,41 @@ const Login = () => {
         : "",
     });
   };
+   
+  const data=useSelector(state=>state.apiReducer)
+    console.log(data,"frfyhrtsytttttttttttttt>")
+  const dispatch = useDispatch();
 
+ 
+  
   const handleSubmit = async (e) => {
+    // dispatch(login(username, password))
+    // then(() => {
+    //  navigate("/home");
+    //   window.location.reload();
+    // })
+    dispatch(apiLogin(obj))
+
     e.preventDefault();
     const obj = {
       email: email.value,
       password: password.value,
     };  
-    await axios
-      .post(`${BASE_URL}/login`, { ...obj })
-      .then((res) => {
-        const token = res.data.token;
-        console.log(res.data);
-        setSuccess(res.data.message);
-        localStorage.setItem("accessToken", token);
-        navigate("/home", { replace: true, useData: res.data, state: token });
-      })
-      .catch((error) => {
-        console.log(error.message, "sdgdgggg");
-        setSuccess(error.message);
-      });
+    // await axios
+    //   .post(`${BASE_URL}/login`, { ...obj },{withCredentials: true})
+    //   .then((res) => {
+    //     const token = res.data.token;
+    //     console.log(res.data,"8888888888888");
+    //     setSuccess(res.data.message);
+    //     localStorage.setItem("accessToken", token);
+    //     navigate("/home", { replace: true, useData: res.data, state: token });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message, "sdgdgggg");
+    //     setSuccess(error.message);
+    //   });
+  
+  
   };
 
   return (
